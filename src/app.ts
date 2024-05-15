@@ -14,9 +14,13 @@ app.use(morgan('dev'));
 const PORT = process.env.PORT || 3000;
 const GATEWAY = process.env.SERVICE_NAME;
 
+app.use('/api/orders',proxy('http://localhost:3001'));
+app.use('/api/products',proxy('http://localhost:5000'));
 
-app.use('/api/v1/orders',proxy('http://localhost:3002'));
-app.use('/api/v1/products',proxy('http://localhost:3001'));
+// health check
+app.get('/health', (req: Request, res: Response) => {
+    res.json({status: 'UP'});
+});
 
 // rutas de auth
 
